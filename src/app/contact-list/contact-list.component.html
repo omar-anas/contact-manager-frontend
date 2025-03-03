@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Contact List</h1>
+  <button (click)="openAddDialog()">Add Contact</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of dataSource.data" [class.locked]="contact.isLocked">
+        <td>
+          {{ contact.name }}
+          <span *ngIf="contact.isLocked" class="locked-indicator">
+            (Locked by {{ contact.lockedBy }})
+          </span>
+        </td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.address }}</td>
+        <td>{{ contact.notes }}</td>
+        <td>
+          <button (click)="openEditDialog(contact)" 
+                  [disabled]="contact.isLocked && contact.lockedBy !== currentUser">
+            Edit
+          </button>
+          <button (click)="deleteContact(contact.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }}</span>
+    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage * pageSize >= totalContacts">Next</button>
+  </div>
+</div>

@@ -1,41 +1,88 @@
 <div class="container">
   <h1>Contact List</h1>
-  <button (click)="openAddDialog()">Add Contact</button>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Notes</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let contact of dataSource.data" [class.locked]="contact.isLocked">
-        <td>
-          {{ contact.name }}
-          <span *ngIf="contact.isLocked" class="locked-indicator">
-            (Locked by {{ contact.lockedBy }})
-          </span>
-        </td>
-        <td>{{ contact.phone }}</td>
-        <td>{{ contact.address }}</td>
-        <td>{{ contact.notes }}</td>
-        <td>
-          <button (click)="openEditDialog(contact)" 
-                  [disabled]="contact.isLocked && contact.lockedBy !== currentUser">
-            Edit
-          </button>
-          <button (click)="deleteContact(contact.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div class="actions">
+    <button (click)="openAddDialog()" class="add-button">Add Contact</button>
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <input
+        type="text"
+        [(ngModel)]="filters.name"
+        (input)="applyFilters()"
+        placeholder="Filter by name"
+        class="filter-input"
+      />
+    </div>
+    <div class="filter-group">
+      <input
+        type="text"
+        [(ngModel)]="filters.phone"
+        (input)="applyFilters()"
+        placeholder="Filter by phone"
+        class="filter-input"
+      />
+    </div>
+    <div class="filter-group">
+      <input
+        type="text"
+        [(ngModel)]="filters.address"
+        (input)="applyFilters()"
+        placeholder="Filter by address"
+        class="filter-input"
+      />
+    </div>
+  </div>
+  <div class="grid">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of dataSource.data" [class.locked]="contact.isLocked">
+          <td>
+            {{ contact.name }}
+            <span *ngIf="contact.isLocked" class="locked-indicator">
+              (Locked by {{ contact.lockedBy }})
+            </span>
+          </td>
+          <td>{{ contact.phone }}</td>
+          <td>{{ contact.address }}</td>
+          <td>{{ contact.notes }}</td>
+          <td class="actions-cell">
+            <button 
+              (click)="openEditDialog(contact)"
+              [disabled]="contact.isLocked && contact.lockedBy !== currentUser"
+              class="edit-button"
+            >
+              Edit
+            </button>
+            <button (click)="deleteContact(contact.id)" class="delete-button">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="pagination">
-    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }}</span>
-    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage * pageSize >= totalContacts">Next</button>
+    <button 
+      (click)="onPageChange(currentPage - 1)" 
+      [disabled]="currentPage === 1"
+      class="page-button"
+    >
+      Previous
+    </button>
+    <span class="page-info">Page {{ currentPage }}</span>
+    <button 
+      (click)="onPageChange(currentPage + 1)" 
+      [disabled]="currentPage * pageSize >= totalContacts"
+      class="page-button"
+    >
+      Next
+    </button>
   </div>
 </div>

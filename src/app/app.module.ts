@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
 import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
     ContactListComponent,
     AddContactComponent,
     EditContactComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

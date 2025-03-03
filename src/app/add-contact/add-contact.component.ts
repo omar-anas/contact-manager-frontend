@@ -15,25 +15,25 @@ export class AddContactComponent {
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService,
-    private router: Router, // Inject Router
+    private router: Router
   ) {
     this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
-      notes: [''],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
+      address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      notes: ['', Validators.maxLength(500)],
     });
   }
 
   onSubmit(): void {
     if (this.contactForm.valid) {
       this.contactService.addContact(this.contactForm.value).subscribe(() => {
-        this.router.navigate(['/contacts']); // Navigate back to the contact list
+        this.router.navigate(['/contacts']); 
       });
     }
   }
 
   onCancel(): void {
-    this.router.navigate(['/contacts']); // Navigate back to the contact list
+    this.router.navigate(['/contacts']); 
   }
 }

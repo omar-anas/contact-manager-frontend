@@ -11,9 +11,15 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getContacts(page: number = 1, limit: number = 5): Observable<{ data: Contact[]; total: number }> {
+  getContacts(page: number = 1, limit: number = 5, filters?: { name?: string; phone?: string; address?: string }): Observable<{ data: Contact[]; total: number }> {
+    let params = `page=${page}&limit=${limit}`;
+    if (filters) {
+      if (filters.name) params += `&name=${filters.name}`;
+      if (filters.phone) params += `&phone=${filters.phone}`;
+      if (filters.address) params += `&address=${filters.address}`;
+    }
     return this.http.get<{ data: Contact[]; total: number }>(
-      `${this.apiUrl}?page=${page}&limit=${limit}`,
+      `${this.apiUrl}?${params}`,
     );
   }
 

@@ -15,7 +15,12 @@ export class ContactListComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
   totalContacts = 0;
-  currentUser = localStorage.getItem('username') || 'Unknown User'; // Simulating logged-in user
+  currentUser = localStorage.getItem('username') || 'Unknown User';
+  filters = {
+    name: '',
+    phone: '',
+    address: ''
+  };
 
   constructor(
     private contactService: ContactService,
@@ -30,17 +35,20 @@ export class ContactListComponent implements OnInit {
 
   loadContacts(): void {
     this.contactService
-      .getContacts(this.currentPage, this.pageSize)
+      .getContacts(this.currentPage, this.pageSize, this.filters)
       .subscribe((response) => {
         this.dataSource = response;
         this.totalContacts = response.total;
       });
   }
 
+  applyFilters(): void {
+    this.currentPage = 1; // Reset to first page when filtering
+    this.loadContacts();
+  }
+
   listenForUpdates(): void {
     this.socketService.onContactLocked().subscribe((data) => {
-      console.log(data);
-      
       const contact = this.dataSource.data.find((c) => c.id === data.id);
       if (contact) {
         contact.isLocked = true;
@@ -49,7 +57,6 @@ export class ContactListComponent implements OnInit {
     });
 
     this.socketService.onContactUnlocked().subscribe((data) => {
-      console.log(data);
       const contact = this.dataSource.data.find((c) => c.id === data.id);
       if (contact) {
         contact.isLocked = false;
@@ -87,5 +94,4 @@ export class ContactListComponent implements OnInit {
       this.socketService.emitLockContact(id, this.currentUser);
     });
   }
-
 }

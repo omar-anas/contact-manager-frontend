@@ -14,7 +14,6 @@ export class ContactListComponent implements OnInit {
   dataSource: { data: Contact[]; total: number } = { data: [], total: 0 };
   pageSize = 5;
   currentPage = 1;
-  totalContacts = 0;
   currentUser = localStorage.getItem('username') || 'Unknown User';
   filters = {
     name: '',
@@ -38,7 +37,6 @@ export class ContactListComponent implements OnInit {
       .getContacts(this.currentPage, this.pageSize, this.filters)
       .subscribe((response) => {
         this.dataSource = response;
-        this.totalContacts = response.total;
       });
   }
 
@@ -74,11 +72,10 @@ export class ContactListComponent implements OnInit {
     this.router.navigate(['/add-contact']);
   }
 
-  openEditDialog(contact: Contact): void {
-    if (!contact.isLocked || contact.lockedBy === this.currentUser) {
-      this.lockContact(contact.id);
-      this.router.navigate(['/edit-contact', contact.id]);
-    }
+  updateContact(contact: Contact): void {
+    this.contactService.updateContact(contact.id, contact).subscribe(() => {
+      this.loadContacts();
+    });
   }
 
   deleteContact(id: number): void {
@@ -92,6 +89,12 @@ export class ContactListComponent implements OnInit {
   lockContact(id: number): void {
     this.contactService.lockContact(id, this.currentUser).subscribe(() => {
       this.socketService.emitLockContact(id, this.currentUser);
+    });
+  }
+
+  unlockContact(id: number): void {
+    this.contactService.unlockContact(id).subscribe(() => {
+      this.socketService.emitUnlockContact(id);
     });
   }
 }

@@ -1,0 +1,58 @@
+<div class="contact-item" [class.locked]="contact.isLocked && contact.lockedBy !== currentUser">
+  <form *ngIf="editMode" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <div class="form-group" [class.has-error]="(contactForm.get('name')?.invalid ?? false) && (contactForm.get('name')?.touched ?? false)">
+      <input type="text" formControlName="name" placeholder="Name" />
+      <div *ngIf="(contactForm.get('name')?.invalid ?? false) && (contactForm.get('name')?.touched ?? false)" class="error-message">
+        <div *ngIf="contactForm.get('name')?.errors?.['required']">Name is required</div>
+        <div *ngIf="contactForm.get('name')?.errors?.['minlength']">Name must be at least 5 characters</div>
+        <div *ngIf="contactForm.get('name')?.errors?.['maxlength']">Name must not exceed 50 characters</div>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="(contactForm.get('phone')?.invalid ?? false) && (contactForm.get('phone')?.touched ?? false)">
+      <input type="text" formControlName="phone" placeholder="Phone" />
+      <div *ngIf="(contactForm.get('phone')?.invalid ?? false) && (contactForm.get('phone')?.touched ?? false)" class="error-message">
+        <div *ngIf="contactForm.get('phone')?.errors?.['required']">Phone is required</div>
+        <div *ngIf="contactForm.get('phone')?.errors?.['pattern']">Phone must be 11 digits</div>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="(contactForm.get('address')?.invalid ?? false) && (contactForm.get('address')?.touched ?? false)">
+      <input type="text" formControlName="address" placeholder="Address" />
+      <div *ngIf="(contactForm.get('address')?.invalid ?? false) && (contactForm.get('address')?.touched ?? false)" class="error-message">
+        <div *ngIf="contactForm.get('address')?.errors?.['required']">Address is required</div>
+        <div *ngIf="contactForm.get('address')?.errors?.['minlength']">Address must be at least 5 characters</div>
+        <div *ngIf="contactForm.get('address')?.errors?.['maxlength']">Address must not exceed 100 characters</div>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="(contactForm.get('notes')?.invalid ?? false) && (contactForm.get('notes')?.touched ?? false)">
+      <textarea formControlName="notes" placeholder="Notes"></textarea>
+      <div *ngIf="(contactForm.get('notes')?.invalid ?? false) && (contactForm.get('notes')?.touched ?? false)" class="error-message">
+        <div *ngIf="contactForm.get('notes')?.errors?.['maxlength']">Notes must not exceed 500 characters</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" [disabled]="!contactForm.valid">Save</button>
+      <button type="button" (click)="toggleEdit()">Cancel</button>
+    </div>
+  </form>
+
+  <div *ngIf="!editMode" class="contact-display">
+    <div class="contact-info">
+      <div class="name">{{ contact.name }}</div>
+      <div class="phone">{{ contact.phone }}</div>
+      <div class="address">{{ contact.address }}</div>
+      <div class="notes" *ngIf="contact.notes">{{ contact.notes }}</div>
+      <div class="lock-status" *ngIf="contact.isLocked">
+        <span class="locked-by">Locked by {{ contact.lockedBy }}</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button (click)="toggleEdit()" [disabled]="contact.isLocked && contact.lockedBy !== currentUser">Edit</button>
+      <button (click)="onDelete()" [disabled]="contact.isLocked && contact.lockedBy !== currentUser">Delete</button>
+    </div>
+  </div>
+</div>

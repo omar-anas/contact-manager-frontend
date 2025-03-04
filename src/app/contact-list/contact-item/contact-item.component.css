@@ -1,0 +1,112 @@
+.contact-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.contact-item.locked {
+  background-color: #f8f8f8;
+  opacity: 0.7;
+}
+
+.contact-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.contact-info {
+  flex-grow: 1;
+}
+
+.name {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.phone, .address {
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.notes {
+  color: #888;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+.lock-status {
+  color: #ff4444;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+button[type="button"]:disabled {
+  background-color: #8a8a8a;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+}
+
+button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
+.form-group .error-message {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 4px;
+  display: block;
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea {
+  border-color: #dc3545;
+}

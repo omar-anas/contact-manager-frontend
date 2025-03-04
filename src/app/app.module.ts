@@ -6,16 +6,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
-import { EditContactComponent } from './edit-contact/edit-contact.component';
+
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ContactListModule } from './contact-list/contact-list.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactListComponent,
     AddContactComponent,
-    EditContactComponent,
     LoginComponent,
   ],
   imports: [
@@ -24,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    ContactListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
